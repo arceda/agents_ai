@@ -1,0 +1,22 @@
+model_list:
+  - model_name: "azure/gpt-4o"
+    litellm_params:
+      model: "azure/gpt-4o"
+      api_key: os.environ/AZURE_OPENAI_API_KEY
+      api_version: "2024-02-15-preview"
+      api_base: os.environ/AZURE_OPENAI_API_BASE
+  
+
+guardrails:
+  - guardrail_name: "custom-pre-guard"
+    litellm_params:
+      guardrail: custom_guardrail.myCustomGuardrail  # 👈 Key change
+      mode: "pre_call"                  # runs async_pre_call_hook
+  - guardrail_name: "custom-during-guard"
+    litellm_params:
+      guardrail: custom_guardrail.myCustomGuardrail  
+      mode: "during_call"               # runs async_moderation_hook
+  - guardrail_name: "custom-post-guard"
+    litellm_params:
+      guardrail: custom_guardrail.myCustomGuardrail
+      mode: "post_call"      

@@ -1,0 +1,20 @@
+# for testing
+# nemoguardrails chat --config=3_config
+# en este caso se usa LLM para detectar los user expressed similares. Internamente lo hace convirtiendo en vector el usequestion y luego usa k means para ver flujo activar.
+
+import core
+import llm
+
+flow main
+  activate llm continuation # to use LLMs
+  activate greeting # If a flow is not activated (or called explicitly by another flow), it will not be used.
+
+flow greeting
+  user expressed greeting
+  bot express greeting
+
+flow user expressed greeting
+  user said "hi" or user said "hello"
+
+flow bot express greeting
+  bot say "Hello world (vicente) !"

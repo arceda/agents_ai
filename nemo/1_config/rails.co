@@ -1,0 +1,9 @@
+# for testing
+# nemoguardrails chat --config=2_config
+
+import core
+
+# basic flow, look for the exact word "hi"
+flow main
+  user said "hi"
+  bot say "Hello World!"

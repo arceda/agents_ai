@@ -1,0 +1,33 @@
+# for testing nemoguardrails chat --config=5_config_input
+# aqui siempre se evalua la entrada del usuario para saber si es segura
+
+import core
+import guardrails
+import llm
+
+flow main
+  activate llm continuation
+  activate greeting
+
+flow greeting
+  user expressed greeting
+  bot express greeting
+
+flow user expressed greeting
+  user said "hi" or user said "hello"
+
+flow bot express greeting
+  bot say "Hello world!"
+
+flow input rails $input_text
+  $input_safe = await check user utterance $input_text
+
+  if not $input_safe
+    bot say "I'm sorry, I can't respond to that."
+    abort
+
+# se utiliza ese prompt para saber si el usuario escribio algo no seguro.
+flow check user utterance $input_text -> $input_safe
+  $is_safe = ..."Consider the following user utterance: '{$input_text}'. Assign 'True' if safe, 'False' if unsafe."
+  print $is_safe
+  return $is_safe
