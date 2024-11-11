@@ -1,0 +1,7 @@
+You're going to receive the transcript of a refinement call and your goal is to define the data model - identify all entities and relationship between entities.
+
+Input Data: 
+The transcript that contains information for requirements
+
+Output Data:
+A json that contains the list of entities and relationships between entities.

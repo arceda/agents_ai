@@ -1,0 +1,156 @@
+# Problem: You must create the data model well-structured, standardized, and optimized. The models should follow best practices for clarity, consistency, and maintainability. 
+
+# Instructions
+## Tutorial: Identify core concepts to solve the problem 
+## Relevant problems: Recall three relevant and distinct transcripts. For each transcript, generate the Data Model.
+## Solve the initial problem
+
+# Additional information
+
+## Entities and relationships
+You must include a list of entitites and a list of relationships between entitites. 
+
+## Data Structure & Organization:
+Use clear, descriptive field names in camelCase format for all keys. Nest objects logically; for example, group related fields like address details under a single address object.
+Use arrays only when a collection of similar data is needed, such as a list of items in an order.
+
+## Data Types & Validation:
+Adhere strictly to data types (string, number, boolean, array, object) and enforce validation rules where applicable (e.g., date formats, minimum values).
+Use consistent data types for similar fields across different models, e.g., always use string for unique identifiers (id).
+Default values should be specified where applicable (e.g., status fields) to provide consistency.
+
+## Documentation & Descriptions:
+Add comments or metadata to describe each field's purpose, expected values, and constraints.
+Include descriptions for any non-obvious fields to improve readability and support usage by external developers.
+
+## Best Practices for JSON Data Models:
+Avoid redundant fields and only include data that is essential for the model's purpose.
+Ensure consistency with any established JSON schema standards, such as OpenAPI for APIs.
+Ensure that all model fields and structures are optimized for ease of use and that they enable validation and error handling within the system.
+
+## Model Fields:
+Always include unique identifiers for main entities, named as id or entityId.
+Use enumerations or constrained values for fields with limited options (e.g., status fields) and list these values in the documentation. Include timestamps (ISO 8601 format) for tracking the creation and update history of records, where applicable.
+
+
+## Output:
+Onlye output the result in JSON format, avoid any extra information
+
+## Output example:
+
+{
+  "entities": [
+    {
+      "name": "Product",
+      "fields": {
+        "productId": {
+          "type": "string",
+          "description": "A unique identifier for the product."
+        },
+        "productName": {
+          "type": "string",
+          "description": "The name of the product."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the product."
+        },
+        "price": {
+          "type": "number",
+          "description": "The price of the product.",
+          "validation": "Should be a non-negative number."
+        },
+        "category": {
+          "type": "string",
+          "description": "The category to which the product belongs."
+        },
+        "stockQuantity": {
+          "type": "number",
+          "description": "The number of items available in stock.",
+          "validation": "Should be a non-negative integer."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the product was added, in ISO 8601 format."
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp of the last update to the product details, in ISO 8601 format."
+        }
+      }
+    },
+    {
+      "name": "Sale",
+      "fields": {
+        "saleId": {
+          "type": "string",
+          "description": "A unique identifier for the sale."
+        },
+        "productId": {
+          "type": "string",
+          "description": "Reference to the product being sold."
+        },
+        "quantity": {
+          "type": "number",
+          "description": "The number of products sold in this sale.",
+          "validation": "Should be a positive integer."
+        },
+        "salePrice": {
+          "type": "number",
+          "description": "Total price for the sale.",
+          "validation": "Should be a non-negative number."
+        },
+        "saleDate": {
+          "type": "string",
+          "description": "Timestamp of the sale, in ISO 8601 format."
+        },
+        "customerId": {
+          "type": "string",
+          "description": "Identifier for the customer who made the purchase."
+        }
+      }
+    },
+    {
+      "name": "Customer",
+      "fields": {
+        "customerId": {
+          "type": "string",
+          "description": "A unique identifier for the customer."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "Customer's first name."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Customer's last name."
+        },
+        "email": {
+          "type": "string",
+          "description": "Customer's email address.",
+          "validation": "Should be a valid email format."
+        },
+        "phone": {
+          "type": "string",
+          "description": "Customer's contact phone number."
+        },
+        "registrationDate": {
+          "type": "string",
+          "description": "Timestamp when the customer registered, in ISO 8601 format."
+        }
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "from": "Sale",
+      "to": "Product",
+      "type": "belongsTo"
+    },
+    {
+      "from": "Sale",
+      "to": "Customer",
+      "type": "belongsTo"
+    }
+  ]
+}

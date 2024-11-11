@@ -1,0 +1,286 @@
+# Problem: You will get the transcript of a conversation for requeriments elicitation. Then, you must create the data model well-structured, standardized, and optimized. The models should follow best practices for clarity, consistency, and maintainability. 
+
+# Instructions
+## Tutorial: Identify core concepts to solve the problem.
+## Get main funcionalities of the software.
+## Based on the main funcionalities, propose a data model.
+## Relevant problems: Recall three relevant and distinct transcripts. For each transcript, generate the Data Model.
+## Solve the initial problem.
+
+# Additional information
+
+## Entities and relationships
+You must include a list of entitites and a list of relationships between entitites. 
+
+## Data Structure & Organization:
+Use clear, descriptive field names in camelCase format for all keys. Nest objects logically; for example, group related fields like address details under a single address object.
+
+## Data Types & Validation:
+Adhere strictly to data types (string, number, boolean, array, object) and enforce validation rules where applicable (e.g., date formats, minimum values). Always use string for unique identifiers (id).
+Default values should be specified where applicable (e.g., status fields) to provide consistency.
+
+## Documentation & Descriptions:
+Add comments or metadata to describe each field's purpose, expected values, and constraints.
+Include descriptions for any non-obvious fields to improve readability and support usage by external developers.
+
+## Best Practices for JSON Data Models:
+Avoid redundant fields and only include data that is essential for the model's purpose.
+Ensure consistency with any established JSON schema standards, such as OpenAPI for APIs.
+
+## Model Fields:
+Always include unique identifiers for main entities, named as id or entityId.
+list these values in the documentation. Include timestamps (ISO 8601 format) for tracking the creation and update history of records, where applicable.
+
+
+## Input:
+You will receive the transcript in a JSON format depicting the speech of each speaker.
+
+
+## Input example:
+
+{
+  "documentation": "Alice discusses the onboarding process for new users on the platform. The user interface should start with a welcome message and a 'Get Started' button. Clicking this button will guide the user through a series of steps: entering personal information, setting up preferences, and a brief tutorial. Each step should have an option to skip, and users can track their progress through a progress bar at the top of the screen. At the end of the onboarding, users should receive a confirmation message indicating successful completion and an option to explore the platform.",
+  "transcript": [
+    {
+      "end_time": 5,
+      "person": "Alice Johnson",
+      "screen_content": "Alice is in a videoconference. She is visible from the shoulders up, wearing a blue shirt and glasses. The background shows a home office setup with bookshelves and a large window.",
+      "start_time": 0,
+      "text": "So, let's start with the onboarding process for new users."
+    },
+    {
+      "end_time": 10,
+      "person": "Alice Johnson",
+      "screen_content": "NA",
+      "start_time": 5,
+      "text": "To begin, we need a welcome message followed by a 'Get Started' button."
+    },
+    {
+      "end_time": 15,
+      "person": "Alice Johnson",
+      "screen_content": "NA",
+      "start_time": 10,
+      "text": "Upon clicking this button, users should be guided through a few steps."
+    },
+    {
+      "end_time": 20,
+      "person": "Alice Johnson",
+      "screen_content": "NA",
+      "start_time": 15,
+      "text": "First, they need to enter their personal information."
+    },
+    {
+      "end_time": 25,
+      "person": "Alice Johnson",
+      "screen_content": "NA",
+      "start_time": 20,
+      "text": "Next, they should set up their preferences."
+    },
+    {
+      "end_time": 30,
+      "person": "Alice Johnson",
+      "screen_content": "NA",
+      "start_time": 25,
+      "text": "After that, we can include a brief tutorial."
+    },
+    {
+      "end_time": 35,
+      "person": "Alice Johnson",
+      "screen_content": "NA",
+      "start_time": 30,
+      "text": "Each of these steps should have a skip option."
+    },
+    {
+      "end_time": 40,
+      "person": "Alice Johnson",
+      "screen_content": "NA",
+      "start_time": 35,
+      "text": "We should also implement a progress bar at the top so users can see their progress."
+    },
+    {
+      "end_time": 45,
+      "person": "Alice Johnson",
+      "screen_content": "NA",
+      "start_time": 40,
+      "text": "Finally, at the end of the onboarding, there should be a confirmation message."
+    },
+    {
+      "end_time": 50,
+      "person": "Alice Johnson",
+      "screen_content": "NA",
+      "start_time": 45,
+      "text": "It should state that the process is complete and offer an option to explore the platform."
+    }
+  ]
+}
+
+## Output:
+Only output the result in JSON format, avoid any extra information
+
+## Output example:
+
+{
+  "entities": [
+    {
+      "name": "User",
+      "fields": {
+        "userId": {
+          "type": "string",
+          "description": "A unique identifier for the user."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The user's first name."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The user's last name."
+        },
+        "email": {
+          "type": "string",
+          "description": "The user's email address.",
+          "validation": "Should be in a valid email format."
+        },
+        "preferences": {
+          "type": "object",
+          "description": "The user's setup preferences.",
+          "fields": {
+            "theme": {
+              "type": "string",
+              "description": "The user's preferred theme choice, e.g., light or dark."
+            },
+            "notificationsEnabled": {
+              "type": "boolean",
+              "description": "Whether the user wants to receive notifications."
+            },
+            "language": {
+              "type": "string",
+              "description": "The user's preferred language setting."
+            }
+          }
+        },
+        "onboardingComplete": {
+          "type": "boolean",
+          "description": "Indicates if the user has completed the onboarding process.",
+          "default": false
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the user was created, in ISO 8601 format."
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp of the last update to the user's data, in ISO 8601 format."
+        }
+      }
+    },
+    {
+      "name": "OnboardingStep",
+      "fields": {
+        "stepId": {
+          "type": "string",
+          "description": "A unique identifier for each onboarding step."
+        },
+        "stepName": {
+          "type": "string",
+          "description": "The name of the onboarding step."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of what the step involves."
+        },
+        "isSkippable": {
+          "type": "boolean",
+          "description": "Specifies if the step can be skipped.",
+          "default": true
+        },
+        "order": {
+          "type": "number",
+          "description": "The sequence order of the step in the onboarding process."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the step was created, in ISO 8601 format."
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp of the last update to the step details, in ISO 8601 format."
+        }
+      }
+    },
+    {
+      "name": "OnboardingProgress",
+      "fields": {
+        "progressId": {
+          "type": "string",
+          "description": "A unique identifier for the progress tracking."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the user associated with the onboarding progress."
+        },
+        "completedSteps": {
+          "type": "array",
+          "description": "List of stepIds corresponding to completed steps.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "currentStep": {
+          "type": "string",
+          "description": "Identifier for the current step the user is on."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the progress tracking was initialized, in ISO 8601 format."
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp of the last update to the progress, in ISO 8601 format."
+        }
+      }
+    },
+    {
+      "name": "Message",
+      "fields": {
+        "messageId": {
+          "type": "string",
+          "description": "A unique identifier for the message."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of message, e.g. 'Welcome', 'Confirmation'."
+        },
+        "content": {
+          "type": "string",
+          "description": "The message content to be displayed to the user."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the message was created, in ISO 8601 format."
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp of the last update to the message, in ISO 8601 format."
+        }
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "from": "OnboardingProgress",
+      "to": "User",
+      "type": "belongsTo"
+    },
+    {
+      "from": "OnboardingProgress",
+      "to": "OnboardingStep",
+      "type": "manyToMany"
+    },
+    {
+      "from": "Message",
+      "to": "User",
+      "type": "relatedTo"
+    }
+  ]
+}
