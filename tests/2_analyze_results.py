@@ -21,8 +21,7 @@ def get_metrics(y_test, y_test_predictions):
     accuracy = accuracy_score(y_test, y_test_predictions)
     precision = precision_score(y_test, y_test_predictions)
     recall = recall_score(y_test, y_test_predictions)
-    f1score = f1_score(y_test, y_test_predictions)  
-    
+    f1score = f1_score(y_test, y_test_predictions)      
 
     return {"accuracy":accuracy, "precision":precision, "recall":recall, "f1score":f1score}
 
@@ -44,13 +43,51 @@ models = [
     "awsbedrock/meta.llama3-2-3b"
 ]
 
-data = pd.read_csv("results_.csv")
+data = pd.read_csv("results_part_1.csv")
 data_filtered = pd.DataFrame()
 
 data_filtered['text'] = data['text']
 data_filtered['label'] = data['label']
 
+acc = []
+precision = []
+recall = []
+f1 = []
+
+
 for model in models:
-    data_filtered[model] = data["codes"+model]
+    data_filtered[model] = data["codes-"+model]
     data_filtered[model] = np.where(data_filtered[model]==400, 1, 0)
-    print(model, get_metrics(data_filtered["label"], data_filtered[model]))
+
+    metrics = get_metrics(data_filtered["label"], data_filtered[model])
+
+    acc.append(metrics["accuracy"])
+    precision.append(metrics["precision"])
+    recall.append(metrics["recall"])
+    f1.append(metrics["f1score"])
+
+
+    
+metrics_pd = pd.DataFrame()
+metrics_pd["model"] = models
+metrics_pd["acc"] = acc
+metrics_pd["precision"] = precision
+metrics_pd["recall"] = recall
+metrics_pd["f1-score"] = f1
+
+print(data.head())
+
+print(metrics_pd)
+# chatgpt-4o es el mejor
+
+tmp = data_filtered[( data_filtered.label != data_filtered["gpt-4o-mini"]) ]
+new_data = pd.DataFrame()
+new_data["text"] = tmp["text"]
+new_data["label"] = tmp["label"]
+new_data["gpt-4o-mini"] = tmp["gpt-4o-mini"]
+
+
+new_data.to_csv("bad_samples.csv")
+
+
+    

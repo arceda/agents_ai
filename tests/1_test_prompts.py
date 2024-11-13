@@ -1,3 +1,6 @@
+# evalua el desempeño de los GurdRails sobre una DB. Hace la comparación con varios LLMs
+# author: Vicente
+
 import json
 import requests
 import numpy as np
