@@ -1,4 +1,4 @@
-# evalua el desempeño de los GurdRails sobre una DB. Solo usa gpt-4o
+# evalua el desempeño de los GurdRails sobre una DB. Solo usa gpt-4o-mini
 # author: Vicente
 import json
 import requests
@@ -31,12 +31,12 @@ from sklearn.metrics import roc_auc_score
 import matplotlib.pyplot as plt
 import numpy as np
 
-# esample: python 3_automatic_test.py -i datasets/custom2.csv -o1 custom2_results.csv -o2 custom2_bad.csv 
+# example: python 3_automatic_test.py -i datasets/custom2.csv -o1 custom2_results.csv -o2 custom2_bad.csv 
 
 parser = ArgumentParser()
 parser.add_argument("-i", "--input", help = "dataset of prompt injections .csv")
-parser.add_argument("-o1", "--output1", help = "API call result for each prompt")
-parser.add_argument("-o2", "--output2", help = "API calls that pass the guardrail")
+parser.add_argument("-o1", "--output1", help = "API calls result for each prompt .csv")
+parser.add_argument("-o2", "--output2", help = "API calls that pass the guardrail .csv")
 args = parser.parse_args()
 
 print(args)
