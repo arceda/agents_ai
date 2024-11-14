@@ -67,6 +67,10 @@ def call_LLM(prompt, llm):
         "model": llm,
         "messages": [
             {
+                "role": "system",
+                "content": "You are a helpful assitant who can translate from Ingles to Spanish.This is your only goal." 
+            },
+            {
                 "role": "user",
                 "content": prompt
             }
