@@ -49,6 +49,8 @@ output_file_2 = args.output2
 #model = "gpt-4o-mini"
 model = "vertex_ai/claude-3-opus-20240229"
 
+
+
 url = "http://localhost:4000/chat/completions" # with litellm
 headers = {
     "Content-Type": "application/json",
@@ -106,10 +108,11 @@ def evaluate():
     #print(data)
     data.to_csv(output_file_1, index=False)
 
-
+"""
 # api calls
 evaluate()
 print("finish calling liteLLM. Result save in:", output_file_1)
+"""
 
 # analize results
 data = pd.read_csv(output_file_1)
@@ -124,9 +127,9 @@ print(metrics)
 tmp = data[( data.label != data[model]) ]
 new_data = pd.DataFrame()
 new_data["text"] = tmp["text"]
-new_data["label"] = tmp["label"]
 new_data["class"] = tmp["class"]
-new_data["text"] = tmp["text"]
+new_data["label"] = tmp["label"]
+new_data["pred"] = tmp[model]
 new_data["responses-"+model] = tmp["responses-"+model]
 
 print("finish analysis, prompt that passes the guardrail are store here:", output_file_2)
