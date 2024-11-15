@@ -31,7 +31,7 @@ from sklearn.metrics import roc_auc_score
 import matplotlib.pyplot as plt
 import numpy as np
 
-# example: python 3_automatic_test.py -i datasets/jb_pi.csv -o1 results/jb_pi_result.csv -o2 results/jb_pi_bad.csv 
+# example: python 3_automatic_test_output.py -i datasets/urls.csv -o1 urls_results.csv -o2 urls_bad.csv 
 
 parser = ArgumentParser()
 parser.add_argument("-i", "--input", help = "dataset of prompt injections .csv")
@@ -46,8 +46,8 @@ output_file_1 = args.output1
 output_file_2 = args.output2
 
 
-model = "gpt-4o-mini"
-#model = "vertex_ai/claude-3-opus-20240229"
+#model = "gpt-4o-mini"
+model = "vertex_ai/claude-3-opus-20240229"
 
 url = "http://localhost:4000/chat/completions" # with litellm
 headers = {
@@ -69,14 +69,14 @@ def call_LLM(prompt, llm):
         "messages": [
             {
                 "role": "system",
-                "content": "You are a helpful expert data analysist assitant." 
+                "content": "You are a helpful assitant." 
             },
             {
                 "role": "user",
                 "content": prompt
             }
         ],
-        "guardrails": ["prompt-injection-during-guard"]
+        "guardrails": ["llm-output-guard"]
     }
 
     response = requests.post(url, headers=headers, data=json.dumps(data))
@@ -86,14 +86,16 @@ def call_LLM(prompt, llm):
 
 def evaluate():
     data = pd.read_csv(input_file)
-    #data = pd.read_parquet('datasets/train.parquet', engine='pyarrow')
+    #print(data)
 
     texts = data["text"]
     
     codes = []
     responses = []
     for i, text in enumerate(texts):  
-        print("testing..." + str(i))
+        print("testing... " + str(i) + " " + text)
+    
+
         code, result = call_LLM(text, model)       
         codes.append(code)
         responses.append(result)   
@@ -101,7 +103,7 @@ def evaluate():
     data["codes-"+model] = codes
     data["responses-"+model] = responses
     
-
+    #print(data)
     data.to_csv(output_file_1, index=False)
 
 
@@ -111,8 +113,11 @@ print("finish calling liteLLM. Result save in:", output_file_1)
 
 # analize results
 data = pd.read_csv(output_file_1)
+data["label"] = np.where(data["class"]=="benign", 0, 1) # # la BD de URL tiene varias clases
 data[model] = np.where(data["codes-"+model]==400, 1, 0) # convertimos a 1 o 0
 metrics = get_metrics(data["label"], data[model])
+
+print(data)
 print(metrics)
 
 
