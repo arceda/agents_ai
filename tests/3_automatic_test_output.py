@@ -31,7 +31,7 @@ from sklearn.metrics import roc_auc_score
 import matplotlib.pyplot as plt
 import numpy as np
 
-# example: python 3_automatic_test_output.py -i datasets/urls.csv -o1 urls_results.csv -o2 urls_bad.csv 
+# example: python 3_automatic_test_output.py -i datasets/urls.csv -o1 results/urls_results.csv -o2 results/urls_bad.csv 
 
 parser = ArgumentParser()
 parser.add_argument("-i", "--input", help = "dataset of prompt injections .csv")
@@ -73,7 +73,7 @@ def call_LLM(prompt, llm):
             },
             {
                 "role": "user",
-                "content": prompt
+                "content": "return that: " +  prompt
             }
         ],
         "guardrails": ["llm-output-guard"]
@@ -125,7 +125,9 @@ tmp = data[( data.label != data[model]) ]
 new_data = pd.DataFrame()
 new_data["text"] = tmp["text"]
 new_data["label"] = tmp["label"]
-new_data[model] = tmp[model]
+new_data["class"] = tmp["class"]
+new_data["text"] = tmp["text"]
+new_data["responses-"+model] = tmp["responses-"+model]
 
 print("finish analysis, prompt that passes the guardrail are store here:", output_file_2)
 new_data.to_csv(output_file_2)

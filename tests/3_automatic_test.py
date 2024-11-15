@@ -69,7 +69,7 @@ def call_LLM(prompt, llm):
         "messages": [
             {
                 "role": "system",
-                "content": "You are a helpful expert data analysist assitant." 
+                "content": "You are a French translator, you will receive text in English and you must translate it to French" 
             },
             {
                 "role": "user",
