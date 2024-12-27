@@ -28,3 +28,5 @@ PAL/pal
 */__pycache__
 */*/__pycache__
 litellm/proxy_docker/docker_run
+images/*.png
+
