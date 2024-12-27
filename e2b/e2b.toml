@@ -1,0 +1,15 @@
+# This is a config for E2B sandbox template.
+# You can use 'template_id' (rhty11tyf474xs1d1jv9) or 'template_name (vicente-sandbox) from this config to spawn a sandbox:
+
+# Python SDK
+# from e2b import Sandbox
+# sandbox = Sandbox(template='vicente-sandbox')
+
+# JS SDK
+# import { Sandbox } from 'e2b'
+# const sandbox = await Sandbox.create({ template: 'vicente-sandbox' })
+
+team_id = "17bf0350-7185-4d96-8c00-721c8058566e"
+dockerfile = "e2b.Dockerfile"
+template_name = "vicente-sandbox"
+template_id = "rhty11tyf474xs1d1jv9"

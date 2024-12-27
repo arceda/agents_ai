@@ -20,3 +20,11 @@ tests/results/jb_pi_result.csv
 tests/results/jb_pi_bad_temper_0.csv
 tests/results/results_part_1.csv
 openai/.env
+*/*/*/.env
+*/*/.env
+*/.env
+.env
+PAL/pal
+*/__pycache__
+*/*/__pycache__
+litellm/proxy_docker/docker_run
